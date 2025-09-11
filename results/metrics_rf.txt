@@ -1,0 +1,4 @@
+=== Random Forest - Resultados ===
+Train -> R²=0.9781, MAE=198.33, RMSE=282.05
+Validation -> R²=0.8761, MAE=441.71, RMSE=717.54
+Test -> R²=0.8799, MAE=494.42, RMSE=675.61
