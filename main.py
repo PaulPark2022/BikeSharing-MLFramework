@@ -104,3 +104,30 @@ plt.title("Importancia de características - Random Forest")
 plt.tight_layout()
 plt.savefig("results/feature_importances.png")
 plt.close()
+
+# ==========================================================
+# 7. Regularización: nuevo modelo con hiperparámetros ajustados
+# ==========================================================
+rf_reg = RandomForestRegressor(
+    n_estimators=100,
+    max_depth=10,           # limitar profundidad
+    min_samples_split=5,    # más datos por split
+    random_state=42
+)
+rf_reg.fit(X_train, y_train)
+
+print("\n=== Evaluación del modelo regularizado ===")
+r2_train_reg, mae_train_reg, rmse_train_reg, y_pred_train_reg = evaluar_modelo(rf_reg, X_train, y_train, "Train (Reg)")
+r2_val_reg, mae_val_reg, rmse_val_reg, y_pred_val_reg = evaluar_modelo(rf_reg, X_val, y_val, "Validation (Reg)")
+r2_test_reg, mae_test_reg, rmse_test_reg, y_pred_test_reg = evaluar_modelo(rf_reg, X_test, y_test, "Test (Reg)")
+
+# Guardar métricas comparativas
+with open("results/metrics_rf_comparacion.txt", "w") as f:
+    f.write("=== Random Forest Comparación ===\n")
+    f.write(f"Train (Inicial) -> R²={r2_train:.4f}, MAE={mae_train:.2f}, RMSE={rmse_train:.2f}\n")
+    f.write(f"Validation (Inicial) -> R²={r2_val:.4f}, MAE={mae_val:.2f}, RMSE={rmse_val:.2f}\n")
+    f.write(f"Test (Inicial) -> R²={r2_test:.4f}, MAE={mae_test:.2f}, RMSE={rmse_test:.2f}\n\n")
+
+    f.write(f"Train (Regularizado) -> R²={r2_train_reg:.4f}, MAE={mae_train_reg:.2f}, RMSE={rmse_train_reg:.2f}\n")
+    f.write(f"Validation (Regularizado) -> R²={r2_val_reg:.4f}, MAE={mae_val_reg:.2f}, RMSE={rmse_val_reg:.2f}\n")
+    f.write(f"Test (Regularizado) -> R²={r2_test_reg:.4f}, MAE={mae_test_reg:.2f}, RMSE={rmse_test_reg:.2f}\n")
